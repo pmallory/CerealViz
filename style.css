@@ -1,0 +1,10 @@
+#wrapper {
+   margin: 1px auto;
+   padding: 0;
+   border: 2px solid black;
+   width: 700px;
+   height: 800px;
+   background-image: url('Shelves.png');
+   background-repeat:no-repeat;
+   background-position: bottom;
+}
