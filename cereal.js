@@ -26,7 +26,7 @@ function filter(values) {
         for (var i=0; i<csv.length; i++) {
             if ((csv[i].calories <= values[0]) || (csv[i].calories >= values[1])) {
                 $('#'+csv[i].name).hide();
-            } else if ((csv[i].calories >= values[0]) && (csv[i].calories <= values[1])) {
+            } else {
                 $('#'+csv[i].name).show();
             }
         }
