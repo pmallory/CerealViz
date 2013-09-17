@@ -11,19 +11,24 @@ $(document).ready(function() {
             slide: function( event, ui ) {
                // find any element with class .amount WITHIN scope of $this
                $(this).parent().find(".amount").html( ui.values[ 0 ] + " - " + ui.values[ 1 ]);
+               filter(ui.values);
             }
         });
         $(".amount").html( $(".slider-range").slider("values", 0 ) + " - " + $(".slider-range").slider("values", 1 ));
      });
 
 
-d3.csv("DATA_Cereal_Revised.csv", function(csv){
-    for (var i=0; i<csv.length; i++) {
-        if (csv[i].calories < 100) {
-            //console.log(csv[i]);
-            console.log($('#'+csv[i].name));
-            $('#'+csv[i].name).hide();
+});
+
+function filter(values) {
+    console.log(values);
+    d3.csv("DATA_Cereal_Revised.csv", function(csv){
+        for (var i=0; i<csv.length; i++) {
+            if ((csv[i].calories <= values[0]) || (csv[i].calories >= values[1])) {
+                $('#'+csv[i].name).hide();
+            } else if ((csv[i].calories >= values[0]) && (csv[i].calories <= values[1])) {
+                $('#'+csv[i].name).show();
+            }
         }
-    }
-});
-});
+    });
+}
