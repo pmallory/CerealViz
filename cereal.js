@@ -1,26 +1,23 @@
 $(document).ready(function() {
-    $(".slider").each(function() {
-        // $this is a reference to .slider in current iteration of each
-        $this = $(this);
-        // find any .slider-range element WITHIN scope of $this
-        $(".slider-range", $this).slider({
-            range: true,
-            min: 0,
-            max: 200,
-            values: [ 10, 190 ],
-            slide: function( event, ui ) {
-               // find any element with class .amount WITHIN scope of $this
-               $(this).parent().find(".amount").html( ui.values[ 0 ] + " - " + ui.values[ 1 ]);
-               filter(ui.values);
-            }
-        });
-        $(".amount").html( $(".slider-range").slider("values", 0 ) + " - " + $(".slider-range").slider("values", 1 ));
-     });
+//init tooltips
+d3.csv("cereal.csv", function(csv){
+    for (var i=0; i<csv.length; i++) {
+        var nutrition = "Calories: "+csv[i].Calories+", Protein: "+csv[i]["Protein (g)"]+
+            "g, Fat: "+csv[i]["Fat (g)"]+"g, Sodium: "+csv[i]["Sodium (mg)"]+
+            "mg, Fiber: "+csv[i]["Fiber (g)"]+"g, Carbohydrates: "+
+            csv[i]["Carbohydrates (g)"]+"g, Sugars: "+csv[i]["Sugars (g)"]+"g";
+        $("#"+csv[i].name+' img')[0].title = nutrition;
+    }
 
-
+$(function() {
+    $( document ).tooltip();
+  });
+});
 });
 
+//hide or display cereal boxes based on filter values
 function shelf_filter(values) {
+    // if filters not set, set defaults outside of range
     if (!values["Calories"]) {
         values["Calories"] = new Object();
         values["Calories"]["min"] = -1;
@@ -57,10 +54,9 @@ function shelf_filter(values) {
         values["Sugars (g)"]["max"] = 99999;
     }
 
-    console.log(values);
-
     d3.csv("cereal.csv", function(csv){
         for (var i=0; i<csv.length; i++) {
+            // show cereals within filters
             if (
                ((csv[i]["Calories"] >= values["Calories"]["min"]) && (csv[i]["Calories"] <= values["Calories"]["max"])) &&
                ((csv[i]["Protein (g)"] >= values["Protein (g)"]["min"]) && (csv[i]["Protein (g)"] <= values["Protein (g)"]["max"])) &&
@@ -71,7 +67,7 @@ function shelf_filter(values) {
                ((csv[i]["Sugars (g)"] >= values["Sugars (g)"]["min"]) && (csv[i]["Sugars (g)"] <= values["Sugars (g)"]["max"]))
             ) {
                 $('#'+csv[i].name).show();
-            } else {
+            } else { // hide the rest
                 $('#'+csv[i].name).hide();
             }
         }

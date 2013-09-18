@@ -7,14 +7,21 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/base/jquery-ui.css">
 <script src="cereal.js"></script>
 </head>
 <body>
+    <div id="banner">
+    <h1>Cereal Facts!</h1>
+    </div>
     <div id="pcoords">
     <script type="text/javascript">
+    /* Taken from example at http://bl.ocks.org/jasondavies/1341281
+        to implement parallel coordinate diagram.
 
+        Modified to filter cereal shelf images.
+     */
 var m = [30, 10, 10, 10],
     w = 600 - m[1] - m[3],
     h = 400 - m[0] - m[2];
@@ -127,13 +134,17 @@ function path(d) {
 function brush() {
   var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
       extents = actives.map(function(p) { return y[p].brush.extent(); });
+
+  //stuff values from range filters into a dict
   filter_ranges = new Object();
   for (var i=0; i<actives.length; i++) {
     filter_ranges[actives[i]] = new Object();
     filter_ranges[actives[i]]["min"] = extents[i][0];
     filter_ranges[actives[i]]["max"] = extents[i][1];
   }
+  //hide/show cereal boxes based on filters
   shelf_filter(filter_ranges);
+
   foreground.style("display", function(d) {
     return actives.every(function(p, i) {
       return extents[i][0] <= d[p] && d[p] <= extents[i][1];
@@ -142,6 +153,13 @@ function brush() {
 }
 
     </script>
+<ul>
+<li>Click and drag along any axis to filter the cereal selection.</li>
+<li>Hover over a cereal to see its nutrion facts.</li>
+</ul>
+</div>
+<div id="instructions">
+</p>
 </div>
 <div id="wrapper">
     <!-- row 1 -->

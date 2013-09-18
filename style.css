@@ -1,6 +1,12 @@
+#banner {
+    float: top;
+    margin-left:auto;
+    margin-right:auto;
+    text-align: center;
+}
+
 #wrapper {
    padding: 0;
-   border: 2px solid black;
    width: 700px;
    height: 800px;
    background-image: url('img/Shelves.png');
@@ -11,6 +17,23 @@
 
 #pcoords {
     float: left;
+}
+
+#instructions {
+    float: bottom left;
+}
+
+.ui-tooltip {
+    padding: 8px;
+    position: absolute;
+    z-index: 9999;
+    max-width: 300px;
+    -webkit-box-shadow: 0 0 5px #aaa;
+    box-shadow: 0 0 5px #aaa;
+}
+
+body .ui-tooltip {
+    border-width: 2px;
 }
 /* parallel coords */
 svg {
